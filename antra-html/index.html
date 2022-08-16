@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Assignment</title>
+</head>
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin: 0px;
+        padding: 0px;
+        font-size: 14px;
+        width: 100vw;
+        height: 50vh;
+    }
+
+    h1 {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .sign-up-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .sign-up-form input {
+        width: 33vw;
+    }
+
+    .name-form,
+    .password-form {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .name-form input,
+    .password-form input {
+        width: 300px;
+    }
+
+    input {
+        font-size: 18px;
+        min-height: 40px;
+        min-width: 25px;
+        padding: 0 0 0 15px;
+        margin: 0px;
+    }
+
+    .terms-and-conds {
+        display: flex;
+    }
+
+    .terms-and-conds .agreement {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+        gap: 5px;
+    }
+
+    .terms-and-conds .agreement input {
+        min-height: 0px;
+        min-width: 0px;
+        height: 50px;
+        width: 15px;
+    }
+
+    .submit {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    .submit button {
+        color: white;
+        width: 300px;
+        height: 50px;
+        font-size: 24px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+    }
+
+    .submit #register {
+        background-color: lightblue;
+    }
+
+    .submit #sign-in {
+        background-color: green;
+    }
+</style>
+
+<body>
+    <div class="sign-up-form">
+        <h1> Sign Up </h1>
+        <div class="name-form">
+            <input id="first-name" placeholder="First Name" />
+            <input id="last-name" placeholder="Last Name" />
+        </div>
+
+        <input type="tel" placeholder="Mobile Number" />
+        <input type="email" placeholder="Email Address" />
+
+        <div class="password-form">
+            <input id="password" type="password" placeholder="Password" />
+            <input id="confirm-password" type="password" placeholder="Confirm Password" />
+        </div>
+
+        <div class="terms-and-conds">
+            <div class="agreement">
+                <input id="agree-check" type="checkbox" />
+                <label for="agree-check">I Agree</label>
+            </div>
+            <div id="terms">
+                <p>By clicking <b>REGISTER</b> you agree to the <a href="#">Terms and Conditions</a> set out by this
+                    site,
+                    including our Cookie Use.</p>
+            </div>
+        </div>
+
+        <div class="submit">
+            <button id="register"> Register </button>
+            <button id="sign-in"> Sign In</button>
+        </div>
+    </div>
+</body>
+
+</html>
