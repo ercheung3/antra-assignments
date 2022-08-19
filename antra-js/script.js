@@ -51,18 +51,45 @@ const subsetStrings = (str) => {
 // 4. Write a JavaScript function that returns a passed string with letters in alphabetical order.
 // Example string: 'webmaster'
 // Expected Output: 'abeemrstw'
+// Assume punctuation and numbers symbols are not included in the passed string.
 const alphabeticalOrder = (str) => {
   return str.split("").sort();
 };
-// Assume punctuation and numbers symbols are not included in the passed string.
+
 // 5. Write a JavaScript function that accepts a string as a parameter and converts the first letter of
 // each word of the string in upper case.
 // Example string: 'the quick brown fox'
 // Expected Output: 'The Quick Brown Fox '
+const toUpperFirstLetter = (str) => {
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map(
+      (substring) => substring.charAt(0).toUpperCase() + substring.substring(1)
+    )
+    .join(" ");
+};
 // 6. Write a JavaScript function that accepts a string as a parameter and find the longest word
 // within the string.
 // Example string: 'Web Development Tutorial'
 // Expected Output: 'Development'
+const findLongestWord = (str) => {
+  /*
+  let strs = str.split(" ");
+  let longestString = strs[0];
+  for (let word of strs) {
+    if (word.length > longestString.length) longestString = word;
+  }
+  return longestString
+  */
+
+  let longestString = str.split(" ").reduce((currentWord, longestWord) => {
+    return currentWord.length > longestWord.length ? currentWord : longestWord;
+  });
+
+  return longestString;
+};
+console.log(findLongestWord("Web Development Tutorial"));
 // 7. Write a JavaScript function that accepts a string as a parameter and counts the number of
 // vowels within the string.
 // Note: As the letter 'y' can be regarded as both a vowel and a consonant, we do not count 'y' as
@@ -147,18 +174,25 @@ const alphabeticalOrder = (str) => {
 
 const tester = () => {
   const nums = [0, 1, -1, 12, -12, 120];
-  const strs = ["dog", "doggo", "madam", "race car"];
+
+  const smallWords = ["dog", "doggo", "madam", "race car", "webmaster"];
+
+  const largeWords = ["the quick brown fox", "Web Development Tutorial"];
 
   for (let num of nums)
     console.log(`reverseNumber: ${num}, ${reverseNumber(num)}`);
 
-  for (let str of strs) console.log(`Palindrome: ${str}, ${isPalindrome(str)}`);
+  for (let str of smallWords)
+    console.log(`Palindrome: ${str}, ${isPalindrome(str)}`);
 
-  for (let str of strs)
+  for (let str of smallWords)
     console.log(`Substrings: ${str}, ${subsetStrings(str)}`);
 
-  for (let str of strs)
+  for (let str of smallWords)
     console.log(`Alphabetical Order: ${str}, ${alphabeticalOrder(str)}`);
+
+  for (let str of largeWords)
+    console.log(`To Uppercase: ${str}, ${toUpperFirstLetter(str)}`);
 };
 
 tester();
