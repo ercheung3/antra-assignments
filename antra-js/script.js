@@ -38,9 +38,22 @@ const isPalindrome = (str) => {
 // 3. Write a JavaScript function that generates all combinations of a string.
 // Example string: 'dog'
 // Expected Output: d, do, dog, o, og, g
+const subsetStrings = (str) => {
+  let subStrings = [];
+  for (let i = 0; i < str.length; i++) {
+    for (let j = i + 1; j <= str.length; j++) {
+      subStrings.push(str.slice(i, j));
+    }
+  }
+  return subStrings;
+};
+
 // 4. Write a JavaScript function that returns a passed string with letters in alphabetical order.
 // Example string: 'webmaster'
 // Expected Output: 'abeemrstw'
+const alphabeticalOrder = (str) => {
+  return str.split("").sort();
+};
 // Assume punctuation and numbers symbols are not included in the passed string.
 // 5. Write a JavaScript function that accepts a string as a parameter and converts the first letter of
 // each word of the string in upper case.
@@ -135,10 +148,17 @@ const isPalindrome = (str) => {
 const tester = () => {
   const nums = [0, 1, -1, 12, -12, 120];
   const strs = ["dog", "doggo", "madam", "race car"];
+
   for (let num of nums)
     console.log(`reverseNumber: ${num}, ${reverseNumber(num)}`);
 
   for (let str of strs) console.log(`Palindrome: ${str}, ${isPalindrome(str)}`);
+
+  for (let str of strs)
+    console.log(`Substrings: ${str}, ${subsetStrings(str)}`);
+
+  for (let str of strs)
+    console.log(`Alphabetical Order: ${str}, ${alphabeticalOrder(str)}`);
 };
 
 tester();
