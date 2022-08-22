@@ -154,6 +154,24 @@ printIdentityMatrix(3);
 // lowest and second greatest numbers, respectively.
 // Sample array: [1,2,3,4,5]
 // Expected Output: 2,4
+const findKNum = (arr) => {
+  let arrCopy = [...arr];
+  let res = [];
+  //Brute Force
+  const minVal = Math.min(...arrCopy);
+  const minValIndex = arrCopy.indexOf(minVal);
+  res.push(arrCopy.splice(minValIndex, 1)[0]);
+  let maxVal = Math.max(...arrCopy);
+  let maxValIndex = arrCopy.indexOf(maxVal);
+  arrCopy.splice(maxValIndex, 1);
+  maxVal = Math.max(...arrCopy);
+  maxValIndex = arrCopy.indexOf(maxVal);
+  res.push(arrCopy.splice(maxValIndex, 1)[0]);
+  //Sort Method
+
+  return res;
+};
+console.log(findKNum([1, 2, 3, 4, 5]));
 // 12. Write a JavaScript function which says whether a number is perfect.
 // According to Wikipedia: In number theory, a perfect number is a positive integer that is equal to
 // the sum of its proper positive divisors, that is, the sum of its positive divisors excluding the
@@ -163,6 +181,22 @@ printIdentityMatrix(3);
 // + 2 + 3 = 6. Equivalently, the number 6 is equal to half the sum of all its positive divisors: ( 1 +
 // 2 + 3 + 6 ) / 2 = 6. The next perfect number is 28 = 1 + 2 + 4 + 7 + 14. This is followed by the
 // perfect numbers 496 and 8128.
+
+const isPerfectNumber = (num) => {
+  let sum = 0;
+
+  for (let i = 0; i < num; i++) {
+    if (num % i == 0) sum += i;
+  }
+
+  if (sum == num) return true;
+  return false;
+};
+
+console.log(isPerfectNumber(496));
+console.log(isPerfectNumber(8128));
+console.log(isPerfectNumber(9));
+console.log(isPerfectNumber(6));
 // 13. Write a JavaScript function to compute the factors of a positive integer.
 // 14. Write a JavaScript function to convert an amount to coins.
 // Sample function: amountTocoins(46, [25, 10, 5, 2, 1])
