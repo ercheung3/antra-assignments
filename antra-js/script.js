@@ -96,14 +96,60 @@ console.log(findLongestWord("Web Development Tutorial"));
 // vowel here.
 // Example string: 'The quick brown fox'
 // Expected Output: 5
+const countVowels = (str) => {
+  /*
+  let totalVowels = 0;
+  let vowels = ["a", "e", "i", "o", "u"];
+  let newStr = str.toLowerCase().split("");
+  for (let char of newStr) {
+    if (vowels.includes(char)) totalVowels++;
+  }
+  return totalVowels;
+  */
+
+  let countVowels = str.match(/[aeiou]/gi);
+  return countVowels === null ? 0 : countVowels.length;
+};
+console.log(countVowels("The quick brown fox"));
 // 8. Write a JavaScript function that accepts a number as a parameter and check the number is
 // prime or not.
 // Note: A prime number (or a prime) is a natural number greater than 1 that has no positive
 // divisors other than 1 and itself.
+const isPrime = (num) => {
+  for (let i = 2; i < Math.floor(Math.sqrt(num)); i++) {
+    if (num % i == 0) return false;
+  }
+
+  return true;
+};
+console.log(isPrime(10));
 // 9. Write a JavaScript function which accepts an argument and returns the type.
 // Note: There are six possible values that typeof returns: object, boolean, function, number, string,
 // and undefined.
+const returnType = (arg) => {
+  return typeof arg;
+};
+
+console.log(returnType(3));
+console.log(returnType(""));
+console.log(returnType("yes"));
+console.log(returnType(() => {}));
+console.log(returnType());
+console.log(returnType({}));
+console.log(returnType(undefined));
+console.log(returnType(false));
+
 // 10. Write a JavaScript function which returns the n rows by n columns identity matrix.
+const printIdentityMatrix = (n) => {
+  let matrix = Array.from(Array(n), () => new Array(n));
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      i === j ? (matrix[i][j] = 1) : (matrix[i][j] = 0);
+    }
+  }
+  console.log(matrix);
+};
+printIdentityMatrix(3);
 // 11. Write a JavaScript function which will take an array of numbers stored and find the second
 // lowest and second greatest numbers, respectively.
 // Sample array: [1,2,3,4,5]
@@ -175,9 +221,13 @@ console.log(findLongestWord("Web Development Tutorial"));
 const tester = () => {
   const nums = [0, 1, -1, 12, -12, 120];
 
-  const smallWords = ["dog", "doggo", "madam", "race car", "webmaster"];
+  const smallWords = ["dog", "doggo", "madam", "race car"];
 
-  const largeWords = ["the quick brown fox", "Web Development Tutorial"];
+  const largeWords = [
+    "webmaster",
+    "the quick brown fox",
+    "Web Development Tutorial",
+  ];
 
   for (let num of nums)
     console.log(`reverseNumber: ${num}, ${reverseNumber(num)}`);
