@@ -19,7 +19,7 @@ export const View = (() => {
     let tmp = "";
     arr.forEach((course) => {
       tmp += `
-            <li class="course">
+            <li class="course" id=${course.courseId}>
               <span>${course.courseName}</span>
               <span>Course Type: ${
                 course.required ? "Compulsory" : "Elective"
@@ -30,12 +30,13 @@ export const View = (() => {
     });
     return tmp;
   };
-
-  const createTmpCredits = (val) => {
+  //Used to calculate credits and selected courses
+  const createTmpCredits = (args) => {
     let tmp = "";
-    console.log(val);
+    tmp += `<p> Total Credits: ${args}</p>`;
     return tmp;
   };
+
   return {
     domstr,
     render,
@@ -62,13 +63,9 @@ export const Model = ((api, view) => {
     }
     set courseList(newCourseList) {
       this.#courseList = [...newCourseList];
-      console.log(newCourseList);
-      console.log(this.#courseList);
-      const courseContainer = document.querySelector(
-        view.domstr.courseContainer
-      );
+      const courseslist = document.querySelector(view.domstr.courselist);
       const tmp = view.createTmp(this.#courseList);
-      view.render(courseContainer, tmp);
+      view.render(courseslist, tmp);
 
       //Listener
     }
@@ -79,6 +76,9 @@ export const Model = ((api, view) => {
 
     set credits(newCredits) {
       this.#credits = newCredits;
+      const creditContainer = document.querySelector(view.domstr.credits);
+      const tmpCredits = view.createTmpCredits(this.#credits);
+      view.render(creditContainer, tmpCredits);
     }
   }
   const { getCourses, deleteCourse, addCourse } = api;
@@ -122,28 +122,45 @@ const Controller = ((model, view) => {
   };
 */
   const selectCourse = () => {
+    const MAXIMUM_CREDITS = 18;
+
     const courseContainer = document.querySelector(view.domstr.courselist);
     courseContainer.addEventListener("click", (event) => {
       let eventParent = event.target.parentElement;
+      //console.log(eventParent.id);
+      //id starts at 1; index starts at 0
+      //console.log(state.courseList[eventParent.id - 1]);
       if (eventParent.className === "course") {
+        //Check if over 18 credits
+        let courseCredits = state.courseList[eventParent.id - 1].credit;
+        let newCredits = state.credits + courseCredits;
+        if (newCredits > MAXIMUM_CREDITS) {
+          alert("You can only choose up to 18 credits in one semester!");
+          return;
+        }
+
         eventParent.className = "course add";
-        //Add Credit
+
+        state.credits = newCredits;
+        //state.credits += state.courselist[eventParent.id - 1];
       } else if (eventParent.className === "course add") {
+        let courseCredits = state.courseList[eventParent.id - 1].credit;
+        let newCredits = state.credits - courseCredits;
+
         eventParent.className = "course";
         //Subtract Credit
+
+        state.credits = newCredits;
+
+        //state.credits -= state.courseList[eventParent.id - 1];
       }
     });
   };
 
   const init = () => {
     model.getCourses().then((courses) => {
-      const courseslist = document.querySelector(view.domstr.courselist);
-      const tmp = view.createTmp(courses);
-      view.render(courseslist, tmp);
-
-      state.courselist = courses;
-      console.log(state.courselist);
-      console.log(state.credits);
+      state.courseList = courses;
+      state.credits = 0;
     });
   };
 
