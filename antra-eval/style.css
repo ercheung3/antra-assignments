@@ -1,0 +1,90 @@
+:root {
+    --height-header: 60px;
+    --height-courselist: 300px;
+    --height-courselist-header: 30px;
+  
+    --width-courselist: 200px;
+  
+    --color-green: rgb(30, 255, 0);
+    --color-red-button: rgb(148, 21, 21);
+    --color-red-li-hover: rgb(27, 172, 8);
+  }
+
+  html,
+  body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    display: flex;
+    height: calc(100% - var(--height-todolist-header) * 5);
+    overflow: auto;
+}
+
+.courselist__header, ul li {
+    height: var(--height-courselist-header);
+    line-height: var(--height-courselist-header);
+    width: 100%;
+  
+
+  
+    border: none;
+    outline: none;
+  
+    font-size: 1rem;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+  
+    list-style: none;
+  }
+  
+  .courselist__header {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+.content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+.course {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.courselist {
+    height: var(--height-courselist);
+    width: var(--width-courselist);
+    overflow: auto;
+}
+
+li:nth-child(even) {
+    background-color: rgb(221, 239, 221);
+}
+
+.course:hover {
+    background-color: lightblue;
+}
+
+.add {
+    background-color: deepskyblue !important;
+}
+
+button {
+    height: 50px;
+    width: 100px;
+}
