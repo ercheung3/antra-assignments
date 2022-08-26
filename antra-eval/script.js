@@ -7,6 +7,9 @@ export const View = (() => {
     courselist: ".courselist",
     course: ".course",
     credits: "#credits_container",
+    submitbtn: "#submitbtn",
+    courseSelectedContainer: "#courselist_container.selected",
+    courseSelectedList: ".courselist.selected",
     //deletebtn: ".deletebtn",
     //inputbox: ".courselist__input",
   };
@@ -30,6 +33,7 @@ export const View = (() => {
     });
     return tmp;
   };
+
   //Used to calculate credits and selected courses
   const createTmpCredits = (args) => {
     let tmp = "";
@@ -57,6 +61,7 @@ export const Model = ((api, view) => {
   class State {
     #courseList = [];
     #credits = 0;
+    #selectedList = [];
 
     get courseList() {
       return this.#courseList;
@@ -79,6 +84,14 @@ export const Model = ((api, view) => {
       const creditContainer = document.querySelector(view.domstr.credits);
       const tmpCredits = view.createTmpCredits(this.#credits);
       view.render(creditContainer, tmpCredits);
+    }
+
+    get selectedList() {
+      return this.#selectedList;
+    }
+
+    set selectedList(newSelectedList) {
+      this.#selectedList = newSelectedList;
     }
   }
   const { getCourses, deleteCourse, addCourse } = api;
@@ -138,25 +151,48 @@ const Controller = ((model, view) => {
           alert("You can only choose up to 18 credits in one semester!");
           return;
         }
-
+        state.selectedList = [
+          state.courseList[eventParent.id - 1],
+          ...state.selectedList,
+        ];
         eventParent.className = "course add";
 
         state.credits = newCredits;
-        //state.credits += state.courselist[eventParent.id - 1];
       } else if (eventParent.className === "course add") {
+        //Subtract Credit
         let courseCredits = state.courseList[eventParent.id - 1].credit;
         let newCredits = state.credits - courseCredits;
 
+        state.selectedList = state.selectedList.filter((course) => {
+          return course.courseId !== parseInt(eventParent.id);
+        });
         eventParent.className = "course";
-        //Subtract Credit
 
         state.credits = newCredits;
-
-        //state.credits -= state.courseList[eventParent.id - 1];
       }
     });
   };
 
+  const submitCourse = () => {
+    const submitButton = document.querySelector(view.domstr.submitbtn);
+    submitButton.addEventListener("click", (event) => {
+      let message =
+        "You have chosen " +
+        state.credits +
+        " credits for this semester. You cannot change once you submit. Do you want to confirm?";
+
+      if (confirm(message)) {
+        const courseSelectedList = document.querySelector(
+          view.domstr.courseSelectedList
+        );
+        const tmp = view.createTmp(state.selectedList);
+        view.render(courseSelectedList, tmp);
+        submitButton.disabled = true;
+      } else {
+        console.log("NOT SUBMITTED");
+      }
+    });
+  };
   const init = () => {
     model.getCourses().then((courses) => {
       state.courseList = courses;
@@ -167,6 +203,7 @@ const Controller = ((model, view) => {
   const bootstrap = () => {
     init();
     selectCourse();
+    submitCourse();
     //deleteCourse();
     //addCourse();
   };
