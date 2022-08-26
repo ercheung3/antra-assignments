@@ -3,13 +3,12 @@ import { Api } from "./api.js";
 /* ~~~~~~~~~~~~~~~~ View ~~~~~~~~~~~~~~~~ */
 export const View = (() => {
   const domstr = {
-    courseContainer: "#courselist_container",
+    courseContainer: ".courselist_container",
     courselist: ".courselist",
     course: ".course",
     credits: "#credits_container",
     submitbtn: "#submitbtn",
-    courseSelectedContainer: "#courselist_container.selected",
-    courseSelectedList: ".courselist.selected",
+    courseSelectedContainer: ".courselist_container.selected",
   };
 
   const render = (ele, tmp) => {
@@ -66,9 +65,11 @@ export const Model = ((api, view) => {
     }
     set courseList(newCourseList) {
       this.#courseList = [...newCourseList];
-      const courseslist = document.querySelector(view.domstr.courselist);
+      const coursesContainer = document.querySelector(
+        view.domstr.courseContainer
+      );
       const tmp = view.createTmp(this.#courseList);
-      view.render(courseslist, tmp);
+      view.render(coursesContainer, tmp);
     }
 
     get credits() {
@@ -153,11 +154,11 @@ const Controller = ((model, view) => {
         " credits for this semester. You cannot change once you submit. Do you want to confirm?";
 
       if (confirm(message)) {
-        const courseSelectedList = document.querySelector(
-          view.domstr.courseSelectedList
+        const courseSelectedContainer = document.querySelector(
+          view.domstr.courseSelectedContainer
         );
         const tmp = view.createTmp(state.selectedList);
-        view.render(courseSelectedList, tmp);
+        view.render(courseSelectedContainer, tmp);
         submitButton.disabled = true;
 
         let newCourseList = state.courseList.filter(
@@ -180,8 +181,6 @@ const Controller = ((model, view) => {
     init();
     selectCourse();
     submitCourse();
-    //deleteCourse();
-    //addCourse();
   };
 
   return {
