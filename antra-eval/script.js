@@ -10,8 +10,6 @@ export const View = (() => {
     submitbtn: "#submitbtn",
     courseSelectedContainer: "#courselist_container.selected",
     courseSelectedList: ".courselist.selected",
-    //deletebtn: ".deletebtn",
-    //inputbox: ".courselist__input",
   };
 
   const render = (ele, tmp) => {
@@ -71,8 +69,6 @@ export const Model = ((api, view) => {
       const courseslist = document.querySelector(view.domstr.courselist);
       const tmp = view.createTmp(this.#courseList);
       view.render(courseslist, tmp);
-
-      //Listener
     }
 
     get credits() {
@@ -107,42 +103,16 @@ export const Model = ((api, view) => {
 
 const Controller = ((model, view) => {
   const state = new model.State();
-  /*
 
-  const deleteCourse = () => {
-    const courseContainer = document.querySelector(view.domstr.courseContainer);
-    courseContainer.addEventListener("click", (event) => {
-      if (event.target.className === "deletebtn") {
-        state.todolist = state.todolist.filter(
-          (course) => +course.id !== +event.target.id
-        );
-      }
-      model.deleteCourse(+event.target.id);
-    });
-  };
-
-  const addCourse = () => {
-    const inputbox = document.querySelector(view.domstr.inputbox);
-    inputbox.addEventListener("keyup", (event) => {
-      if (event.key === "Enter" && event.target.value.trim()) {
-        const newCourse = new model.Course(event.target.value);
-        model.addCourse(newCourse).then((course) => {
-          state.courselist = [course, ...state.courselist];
-        });
-        event.target.value = "";
-      }
-    });
-  };
-*/
   const selectCourse = () => {
     const MAXIMUM_CREDITS = 18;
 
     const courseContainer = document.querySelector(view.domstr.courselist);
     courseContainer.addEventListener("click", (event) => {
       let eventParent = event.target.parentElement;
-      //console.log(eventParent.id);
       //id starts at 1; index starts at 0
-      //console.log(state.courseList[eventParent.id - 1]);
+
+      //Add Credit and Course
       if (eventParent.className === "course") {
         //Check if over 18 credits
         let courseCredits = state.courseList[eventParent.id - 1].credit;
@@ -158,8 +128,9 @@ const Controller = ((model, view) => {
         eventParent.className = "course add";
 
         state.credits = newCredits;
+
+        //Subtract Credit and Course
       } else if (eventParent.className === "course add") {
-        //Subtract Credit
         let courseCredits = state.courseList[eventParent.id - 1].credit;
         let newCredits = state.credits - courseCredits;
 
@@ -188,6 +159,11 @@ const Controller = ((model, view) => {
         const tmp = view.createTmp(state.selectedList);
         view.render(courseSelectedList, tmp);
         submitButton.disabled = true;
+
+        let newCourseList = state.courseList.filter(
+          (course) => !state.selectedList.includes(course)
+        );
+        state.courseList = newCourseList;
       } else {
         console.log("NOT SUBMITTED");
       }
