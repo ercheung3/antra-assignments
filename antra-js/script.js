@@ -257,9 +257,10 @@ console.log(exponentFunc(7, 0.5), Math.pow(7, 0.5));
 // Expected Output: "thequickbrownfxjmpsvlazydg"
 
 const uniqueChars = (str) => {
+  let newStr = str.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, "");
   let hashMap = {};
   let res = "";
-  [...str].forEach((char) => {
+  [...newStr].forEach((char) => {
     if (!hashMap[char]) {
       res += char;
       hashMap[char] = 1;
@@ -270,17 +271,100 @@ const uniqueChars = (str) => {
 let uniqueChar = uniqueChars("thequickbrownfoxjumpsoverthelazydog");
 console.log(uniqueChar, uniqueChar === "thequickbrownfxjmpsvlazydg");
 // 17. Write a JavaScript function to get the number of occurrences of each letter in specified string.
+const occurencesOfChars = (str) => {
+  let newStr = str.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, "");
+  console.log(newStr);
+  let hashMap = {};
+  for (const char of newStr) {
+    if (!hashMap[char]) hashMap[char] = 1;
+    else hashMap[char] += 1;
+  }
+  return Object.entries(hashMap);
+};
+console.log(occurencesOfChars("AAABBbbCCcc"));
 // 18. Write a function for searching JavaScript arrays with a binary search.
 // Note: A binary search searches by splitting an array into smaller and smaller chunks until it finds
 // the desired value.
+const binarySearch = (arr, searchVal) => {
+  //assumes array is sorted
+  let [left, right] = [0, arr.length - 1];
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+
+    //middle is greater than search, value is on the left
+    if (arr[mid] === searchVal) return mid;
+    else if (arr[mid] > searchVal) right = mid - 1;
+    else left = mid + 1;
+  }
+
+  return -1;
+};
+let binaryArray = [1, 3, 5, 7, 8, 9];
+console.log(binarySearch(binaryArray, 5));
+console.log(binarySearch(binaryArray, 10));
+console.log(binarySearch(binaryArray, 8));
 // 19. Write a JavaScript function that returns array elements larger than a number.
+const largerElements = (arr, val) => {
+  /*
+  //Brute Force
+  let res = [];
+
+  //for of is for ARRAYS
+  //for in is for OBJECTS
+  for (const ele of arr) {
+    if (ele > val) res.push(ele);
+  }
+
+  return res;
+  */
+
+  return arr.filter((arrVal) => arrVal > val);
+};
+
+console.log(largerElements(binaryArray, 2));
 // 20. Write a JavaScript function that generates a string id (specified length) of random characters.
 // Sample   character   list:
 // "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+const generateStringId = (strLength) => {
+  let charList =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let res = "";
+  for (let i = 0; i < strLength; i++) {
+    let randomIndex = parseInt(Math.random() * charList.length);
+    res += charList[randomIndex];
+  }
+
+  return res;
+};
+console.log(generateStringId(5));
+console.log(generateStringId(5));
 // 21. Write a JavaScript function to get all possible subset with a fixed length (for example 2)
 // combinations in an array.
 // Sample array: [1, 2, 3] and subset length is 2
 // Expected output: [[2, 1], [3, 1], [3, 2]]
+const fixedLengthSubsets = (arr, subsetLength) => {
+  //DP
+  //Brute Force
+  let res = [];
+
+  const backtrack = (arr, subsetLength, currLength, subset, index) => {
+    if (currLength === subsetLength) {
+      res.push([...subset]);
+      return;
+    }
+
+    if (index >= arr.length) return;
+
+    subset[currLength] = arr[index];
+    backtrack(arr, subsetLength, currLength + 1, subset, index + 1);
+    backtrack(arr, subsetLength, currLength, subset, index + 1);
+  };
+
+  backtrack(arr, subsetLength, 0, [], 0);
+  return res;
+};
+
+console.log(fixedLengthSubsets([1, 2, 3], 2));
 // 22. Write a JavaScript function that accepts two arguments, a string and a letter and the function
 // will count the number of occurrences of the specified letter within the string.
 // Sample arguments: 'microsoft.com', 'o'
