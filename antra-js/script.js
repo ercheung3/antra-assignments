@@ -400,12 +400,67 @@ console.log(nonRepeatChar("abacddbecf"));
 // each pair of adjacent items and swapping them if they are in the wrong order".
 // Sample array: [12, 345, 4, 546, 122, 84, 98, 64, 9, 1, 3223, 455, 23, 234, 213]
 // Expected output: [3223, 546, 455, 345, 234, 213, 122, 98, 84, 64, 23, 12, 9, 4, 1]
+
+const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    //Do not inclue last index
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] < arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+console.log(
+  bubbleSort([12, 345, 4, 546, 122, 84, 98, 64, 9, 1, 3223, 455, 23, 234, 213])
+);
 // 25. Write a JavaScript function that accept a list of country names as input and returns the
 // longest country name as output.
 // Sample function: Longest_Country_Name(["Australia", "Germany", "United States of America"])
 // Expected output: "United States of America"
+
+const longestCountryName = (arr) => {
+  let res = arr[0];
+  for (const country of arr) {
+    if (country.length > res.length) res = country;
+  }
+
+  return res;
+};
+console.log(
+  longestCountryName(["Australia", "Germany", "United States of America"])
+);
 // 26. Write a JavaScript function to find longest substring in a given a string without repeating
 // characters.
+
+let lengthOfLongestSubstring = (str) => {
+  let start = 0;
+  let longestStr = "";
+
+  let charMap = new Map();
+
+  for (let i = 0; i < str.length; i++) {
+    //Store char and gets char from map
+    let currChar = str[i];
+    let currCharMap = charMap.get(currChar);
+
+    if (currCharMap >= start) start = currCharMap + 1;
+
+    charMap.set(currChar, i);
+
+    longestStr =
+      longestStr.length > i + 1 - start ? longestStr : str.slice(start, i + 1);
+  }
+  return longestStr;
+};
+
+console.log(lengthOfLongestSubstring("bbbbb"));
+console.log(lengthOfLongestSubstring("abcabcbb"));
+console.log(lengthOfLongestSubstring("pwwkew"));
 // 27. Write a JavaScript function that returns the longest palindrome in a given string.
 // Note: According to Wikipedia "In computer science, the longest palindromic substring or longest
 // symmetric factor problem is the problem of finding a maximum-length contiguous substring of a
@@ -418,7 +473,25 @@ console.log(nonRepeatChar("abacddbecf"));
 // substrings) rather than returning only one substring or returning the maximum length of a
 // palindromic substring.
 // 28. Write a JavaScript program to pass a 'JavaScript function' as parameter.
+
+const callback1 = (callback2) => {
+  callback2();
+  console.log("THIS IS CALLBACK 1");
+};
+
+const callback2 = () => {
+  console.log("THIS IS CALLBACK 2");
+};
+
+callback1(callback2);
 // 29. Write a JavaScript function to get the function name.
+
+const getFunctionName = (func) => {
+  return func.name;
+};
+
+console.log(getFunctionName(callback1));
+console.log(getFunctionName(callback2));
 
 const tester = () => {
   const nums = [0, 1, -1, 12, -12, 120];
