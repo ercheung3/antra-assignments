@@ -198,15 +198,77 @@ console.log(isPerfectNumber(8128));
 console.log(isPerfectNumber(9));
 console.log(isPerfectNumber(6));
 // 13. Write a JavaScript function to compute the factors of a positive integer.
+const findFactors = (num) => {
+  let res = [];
+  for (let i = 0; i <= num; i++) {
+    if (num % i === 0) {
+      res.push(i);
+    }
+  }
+
+  return res;
+};
+
+console.log(findFactors(12));
 // 14. Write a JavaScript function to convert an amount to coins.
 // Sample function: amountTocoins(46, [25, 10, 5, 2, 1])
 // Here 46 is the amount. and 25, 10, 5, 2, 1 are coins.
 // Output: 25, 10, 10, 1
+
+const convertToCoins = (amountToCoins, coinArr) => {
+  let res = [];
+  while (amountToCoins > 0) {
+    coinArr.forEach((coin) => {
+      let divisible = amountToCoins / coin;
+      while (divisible >= 1) {
+        //console.log(amountToCoins, res);
+        amountToCoins -= coin;
+        res.push(coin);
+        divisible = amountToCoins / coin;
+      }
+    });
+  }
+
+  return res;
+};
+
+console.log(convertToCoins(46, [25, 10, 5, 2, 1]));
 // 15. Write a JavaScript function to compute the value of bn where n is the exponent and b is the
 // bases. Accept b and n from the user and display the result.
+const exponentFunc = (base, exponent) => {
+  let res = 1;
+  let negative = false;
+  if (exponent < 0) {
+    negative = true;
+    exponent *= -1;
+  }
+  for (let i = 0; i < exponent; i++) {
+    negative ? (res /= base) : (res *= base);
+  }
+  return res;
+  //return Math.pow(base, exponent);
+};
+
+console.log(exponentFunc(7, 3), Math.pow(7, 3));
+console.log(exponentFunc(7, -2), Math.pow(7, -2));
+console.log(exponentFunc(7, 0.5), Math.pow(7, 0.5));
 // 16. Write a JavaScript function to extract unique characters from a string.
 // Example string: "thequickbrownfoxjumpsoverthelazydog"
 // Expected Output: "thequickbrownfxjmpsvlazydg"
+
+const uniqueChars = (str) => {
+  let hashMap = {};
+  let res = "";
+  [...str].forEach((char) => {
+    if (!hashMap[char]) {
+      res += char;
+      hashMap[char] = 1;
+    }
+  });
+  return res;
+};
+let uniqueChar = uniqueChars("thequickbrownfoxjumpsoverthelazydog");
+console.log(uniqueChar, uniqueChar === "thequickbrownfxjmpsvlazydg");
 // 17. Write a JavaScript function to get the number of occurrences of each letter in specified string.
 // 18. Write a function for searching JavaScript arrays with a binary search.
 // Note: A binary search searches by splitting an array into smaller and smaller chunks until it finds
@@ -262,7 +324,7 @@ const tester = () => {
     "the quick brown fox",
     "Web Development Tutorial",
   ];
-
+  /*
   for (let num of nums)
     console.log(`reverseNumber: ${num}, ${reverseNumber(num)}`);
 
@@ -277,6 +339,7 @@ const tester = () => {
 
   for (let str of largeWords)
     console.log(`To Uppercase: ${str}, ${toUpperFirstLetter(str)}`);
+    */
 };
 
 tester();
